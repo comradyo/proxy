@@ -73,7 +73,7 @@ func HandleClientConnection(clientConn net.Conn) error {
 
 func (p *ProxyServer) Run() error {
 	// Устанавливаем прослушивание порта
-	l, err := net.Listen("tcp", "localhost:8080")
+	l, err := net.Listen("tcp", ":8080")
 	if err != nil {
 		return err
 	}
@@ -83,6 +83,7 @@ func (p *ProxyServer) Run() error {
 	for {
 		// Открываем порт
 		clientConn, err := l.Accept()
+		fmt.Println("connection accepted, conn = ", clientConn.RemoteAddr())
 		if err != nil {
 			return err
 		}
