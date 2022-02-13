@@ -43,7 +43,6 @@ func HandleRequestToServer(reqToServer *http.Request) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(reqToServer.Host)
 	_, err = serverConn.Write(reqToServerBytes)
 	if err != nil {
 		return nil, err
@@ -88,7 +87,12 @@ func (p *ProxyServer) Run() error {
 			return err
 		}
 		defer clientConn.Close()
-		go HandleClientConnection(clientConn)
+		go func() {
+			err := HandleClientConnection(clientConn)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}()
 	}
 }
 
